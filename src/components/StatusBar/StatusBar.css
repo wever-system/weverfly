@@ -1,0 +1,15 @@
+.status-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+  padding: 5px;
+  -webkit-app-region: drag;
+  background: linear-gradient(to right,#1F1F1F 0%, #376691dd 10%, #1F1F1F 24%);
+}
