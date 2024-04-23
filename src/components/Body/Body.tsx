@@ -1,4 +1,4 @@
-import { ipcRenderer } from "electron";
+// import { ipcRenderer } from "electron";
 import dotenv from "dotenv";
 import {
   Box,
@@ -13,9 +13,8 @@ import useActiveTabStore from "../../store";
 
 dotenv.config();
 
-
 const Body = () => {
-  const { activeTab, setActiveTab } = useActiveTabStore();
+  const { activeTab } = useActiveTabStore();
   useEffect(() => {
     // getGpt("What is the capital of Korea?")
   }, [])
@@ -24,8 +23,7 @@ const Body = () => {
       <Grid container height={"100vh"}>
         <Grid
           item
-          xs={1}
-          lg={0.5}
+          width={50}
           bgcolor={"#161616"}
           borderRight={"0.2px solid #363636"}
         >
