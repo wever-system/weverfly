@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow, clipboard, globalShortcut, ipcMain } from "electron";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import macaddress from "macaddress";
@@ -67,4 +67,11 @@ app.on("activate", () => {
   }
 });
 
-app.whenReady().then(createWindow);
+app.whenReady().then(() => {
+  globalShortcut.register("CommandOrControl+`", () => {
+    console.log("CommandOrControl+` is pressed");
+    const text = clipboard.readText();
+    console.log("text", text);
+  });
+}).then(createWindow);
+
