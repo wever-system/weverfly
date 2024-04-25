@@ -83,3 +83,7 @@ app.whenReady().then(() => {
 ipcMain.on("clipboard-data",async (event) => {
   event.sender.send("clipboard-data", await getData(macIp as string));
 })
+
+ipcMain.on("clipboard-change",async (_, ...args) => {
+  clipboard.writeText(args[0])
+})

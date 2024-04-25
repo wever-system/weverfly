@@ -1,7 +1,7 @@
 import sqlExcute from "../db/sqlExcute";
 
 export const getData = async (mac_address: string) => {
-    const data = await sqlExcute("SELECT * FROM clipboard where mac_address = ?;", [mac_address]);
+    const data = await sqlExcute("SELECT idx, text, LEFT(created_at,16) AS created_at FROM clipboard where mac_address = ? order by idx desc limit 10;", [mac_address]);
     return data.data
   }
   
