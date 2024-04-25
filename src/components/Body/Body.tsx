@@ -1,10 +1,6 @@
 // import { ipcRenderer } from "electron";
 import dotenv from "dotenv";
-import {
-  Box,
-  Grid
-} from "@mui/material";
-
+import { Box, Grid } from "@mui/material";
 
 import { SideBar } from "./sidebar/sidebar";
 
@@ -18,25 +14,22 @@ dotenv.config();
 const Body = () => {
   const { activeTab } = useActiveTabStore();
   useEffect(() => {
-    console.log("hhhello")
-  }, [])
+  }, []);
   return (
     <Box sx={{ minWidth: 800 }}>
-      <Grid container height={"100vh"}>
+      <Grid container height={"100vh"} display={"flex"}>
         <Grid
           item
           width={50}
           bgcolor={"#161616"}
           borderRight={"0.2px solid #363636"}
         >
-         <SideBar/> 
-        </Grid>
-       
-        <Grid item>
-          {activeTab === "gpt" && <> gpttt         </>}
-          {activeTab === "clipboard" && <><Clipboard/>dddddddd</>}
+          <SideBar />
         </Grid>
 
+        <Grid item flexGrow={1} bgcolor={"#1c1c1c"}>
+          {activeTab === "clipboard" && <Clipboard />}
+        </Grid>
       </Grid>
     </Box>
   );

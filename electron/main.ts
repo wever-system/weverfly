@@ -2,7 +2,6 @@ import { app, BrowserWindow, clipboard, globalShortcut, ipcMain } from "electron
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import macaddress from "macaddress";
-import sqlExcute from "./db/sqlExcute";
 import { getData, updateClipboard } from "./service/clipboard";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 

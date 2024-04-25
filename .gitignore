@@ -26,3 +26,4 @@ release
 *.sw?
 .env.*
 .env
+electron/db/db.ts
