@@ -10,13 +10,15 @@ import { SideBar } from "./sidebar/sidebar";
 
 import { useEffect } from "react";
 import useActiveTabStore from "../../store";
+// import React from "react";
+import Clipboard from "./pages/clipboard";
 
 dotenv.config();
 
 const Body = () => {
   const { activeTab } = useActiveTabStore();
   useEffect(() => {
-    // getGpt("What is the capital of Korea?")
+    console.log("hhhello")
   }, [])
   return (
     <Box sx={{ minWidth: 800 }}>
@@ -31,7 +33,8 @@ const Body = () => {
         </Grid>
        
         <Grid item>
-          {activeTab === "gpt" && <>          </>}
+          {activeTab === "gpt" && <> gpttt         </>}
+          {activeTab === "clipboard" && <><Clipboard/>dddddddd</>}
         </Grid>
 
       </Grid>

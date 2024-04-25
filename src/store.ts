@@ -6,7 +6,7 @@ interface IActiveTab {
 }
 
 const useActiveTabStore = create<IActiveTab>((set) => ({
-    activeTab: "gpt",
+    activeTab: "clipboard",
     setActiveTab: (activeTab) => set({ activeTab })
 }));
 

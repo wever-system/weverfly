@@ -2,6 +2,8 @@ import { app, BrowserWindow, clipboard, globalShortcut, ipcMain } from "electron
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import macaddress from "macaddress";
+import sqlExcute from "./db/sqlExcute";
+import { getData, updateClipboard } from "./service/clipboard";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 process.env.APP_ROOT = path.join(__dirname, "..");
@@ -68,10 +70,17 @@ app.on("activate", () => {
 });
 
 app.whenReady().then(() => {
-  globalShortcut.register("CommandOrControl+`", () => {
-    console.log("CommandOrControl+` is pressed");
+  globalShortcut.register("CommandOrControl+`",async () => {
     const text = clipboard.readText();
-    console.log("text", text);
+    if (text) {
+      const res = await updateClipboard(text, macIp as string);
+      if(res) {
+        win?.webContents.send("clipboard-data", await getData(macIp as string))
+      }
+    }
   });
 }).then(createWindow);
 
+ipcMain.on("clipboard-data",async (event) => {
+  event.sender.send("clipboard-data", await getData(macIp as string));
+})

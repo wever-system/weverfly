@@ -18,7 +18,7 @@ const { setActiveTab } = useActiveTabStore();
             spacing={2}
           >
             <Grid item sx={{ cursor: "pointer" }}>
-              <img src={FileIcon} onClick={() => setActiveTab("file")}/>
+              <img src={FileIcon} onClick={() => setActiveTab("clipboard")}/>
             </Grid>
 
             <Grid item sx={{ cursor: "pointer" }} >
