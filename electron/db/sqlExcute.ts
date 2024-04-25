@@ -5,11 +5,11 @@
 
 // const connection = {
 //   //database 접속 정보 입력
-//   host: "dev.ct0wc4km2hl0.ap-northeast-2.rds.amazonaws.com",
+//   host: "dev.cdaufcm2hl0.ap-northeast-2.rds.amazonaws.com",
 //   user: "develop",
-//   password: "Wlghks0326",
+//   password: "ff839@@a2",
 //   port: 3306,
-//   database: "weverfly",
+//   database: "hw2everasfl1y",
 //   connectionLimit: 30, // 커넥션수 30개로 설정
 // };
 // const dbPool = mysql.createPool(connection);
