@@ -35,6 +35,10 @@ function createWindow() {
     },
     frame: false,
     transparent: true,
+    width: 880,
+    height: 600,
+    minWidth: 880,
+    minHeight: 600
   });
 
   win.webContents.on("did-finish-load", () => {

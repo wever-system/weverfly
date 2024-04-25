@@ -16,8 +16,8 @@ const Body = () => {
   useEffect(() => {
   }, []);
   return (
-    <Box sx={{ minWidth: 800 }}>
-      <Grid container height={"100vh"} display={"flex"}>
+    <Box sx={{  }}>
+      <Grid container height={"100vh"} display={"flex"} justifyContent={"space-between"}>
         <Grid
           item
           width={50}
@@ -27,7 +27,7 @@ const Body = () => {
           <SideBar />
         </Grid>
 
-        <Grid item flexGrow={1} bgcolor={"#1c1c1c"}>
+        <Grid item flexGrow={2} bgcolor={"#1c1c1c"}>
           {activeTab === "clipboard" && <Clipboard />}
         </Grid>
       </Grid>

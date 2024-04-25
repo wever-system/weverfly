@@ -1,3 +1,4 @@
+import styled from "@emotion/styled";
 import {
   Table,
   TableBody,
@@ -15,6 +16,14 @@ interface IClipboard {
   text: string;
   created_at: string;
 }
+const StyledTableCell = styled(TableCell)({
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  maxWidth: '240px', // 셀의 최대 너비 설정, 필요에 따라 조절 가능
+  color: '#c5c5c5',
+});
+
 
 const Clipboard = () => {
   const [clipboards, setClipboards] = React.useState<IClipboard[]>([]);
@@ -33,7 +42,6 @@ const Clipboard = () => {
   ];
   return (
     <TableContainer>
-    
       <Table size="small">
         <TableHead>
           <TableRow>
@@ -64,9 +72,7 @@ const Clipboard = () => {
                 <TableCell align="center">
                   <Typography>{clipboard.idx}</Typography>
                 </TableCell>
-                <TableCell>
-                  <Typography>{clipboard.text.substring(0,40)}</Typography>
-                </TableCell>
+                  <StyledTableCell>{clipboard.text}</StyledTableCell>
                 <TableCell align="center">
                   <Typography>{clipboard.text.length}</Typography>
                 </TableCell>
