@@ -91,3 +91,7 @@ ipcMain.on("clipboard-data",async (event) => {
 ipcMain.on("clipboard-change",async (_, ...args) => {
   clipboard.writeText(args[0])
 })
+
+ipcMain.on("get-mac-ip", (event) => {
+  event.sender.send("receive-mac-ip", macIp);
+});

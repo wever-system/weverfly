@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import {
+  Snackbar,
   Table,
   TableBody,
   TableCell,
@@ -9,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { ipcRenderer } from "electron";
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface IClipboard {
   idx: number;
@@ -17,17 +18,16 @@ interface IClipboard {
   created_at: string;
 }
 const StyledTableCell = styled(TableCell)({
-  whiteSpace: 'nowrap',
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-  maxWidth: '240px', // 셀의 최대 너비 설정, 필요에 따라 조절 가능
-  color: '#c5c5c5',
+  whiteSpace: "nowrap",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  maxWidth: "240px", // 셀의 최대 너비 설정, 필요에 따라 조절 가능
+  color: "#c5c5c5",
 });
 
-
 const Clipboard = () => {
-  const [clipboards, setClipboards] = React.useState<IClipboard[]>([]);
-
+  const [clipboards, setClipboards] = useState<IClipboard[]>([]);
+  const [showSnackbar, setShowSnackbar] = useState(false);
   useEffect(() => {
     ipcRenderer.on("clipboard-data", (_, message) => {
       setClipboards(message);
@@ -41,50 +41,60 @@ const Clipboard = () => {
     { name: "created_at", width: 200 },
   ];
   return (
-    <TableContainer>
-      <Table size="small">
-        <TableHead>
-          <TableRow>
-            {headerCells.map((cell) => {
+    <>
+      <TableContainer>
+        <Table size="small">
+          <TableHead>
+            <TableRow>
+              {headerCells.map((cell) => {
+                return (
+                  <TableCell width={cell.width} key={cell.name} align="center">
+                    <Typography variant="body2" key={cell.name}>
+                      {cell.name}
+                    </Typography>
+                  </TableCell>
+                );
+              })}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {clipboards?.map((clipboard) => {
               return (
-                <TableCell width={cell.width} key={cell.name} align="center">
-                  <Typography variant="body2" key={cell.name}>
-                    {cell.name}
-                  </Typography>
-                </TableCell>
+                <TableRow
+                  key={clipboard.idx}
+                  sx={{
+                    "td, th": { border: 0 },
+                    ":hover": { backgroundColor: "#2f2f2f", cursor: "pointer" },
+                  }}
+                  onClick={() => {
+                    ipcRenderer.send("clipboard-change", clipboard.text);
+                    setShowSnackbar(true);
+                  }}
+                >
+                  <TableCell align="center">
+                    <Typography>{clipboard.idx}</Typography>
+                  </TableCell>
+                  <StyledTableCell>{clipboard.text}</StyledTableCell>
+                  <TableCell align="center">
+                    <Typography>{clipboard.text.length}</Typography>
+                  </TableCell>
+                  <TableCell align="center">
+                    <Typography>{clipboard.created_at}</Typography>
+                  </TableCell>
+                </TableRow>
               );
             })}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {clipboards?.map((clipboard) => {
-            return (
-              <TableRow
-                key={clipboard.idx}
-                sx={{
-                  "td, th": { border: 0 },
-                  ":hover": { backgroundColor: "#2f2f2f", cursor: "pointer" },
-                }}
-                onClick={() =>
-                  ipcRenderer.send("clipboard-change", clipboard.text)
-                }
-              >
-                <TableCell align="center">
-                  <Typography>{clipboard.idx}</Typography>
-                </TableCell>
-                  <StyledTableCell>{clipboard.text}</StyledTableCell>
-                <TableCell align="center">
-                  <Typography>{clipboard.text.length}</Typography>
-                </TableCell>
-                <TableCell align="center">
-                  <Typography>{clipboard.created_at}</Typography>
-                </TableCell>
-              </TableRow>
-            );
-          })}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Snackbar
+        open={showSnackbar}
+        autoHideDuration={3000}
+        onClose={() => setShowSnackbar(false)}
+        message="Copied to clipboard"
+        
+      />
+    </>
   );
 };
 

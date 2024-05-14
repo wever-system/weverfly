@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import useActiveTabStore from "../../store";
 // import React from "react";
 import Clipboard from "./pages/clipboard";
+import Chat from "./pages/chat";
 
 dotenv.config();
 
@@ -29,6 +30,8 @@ const Body = () => {
 
         <Grid item flexGrow={2} bgcolor={"#1c1c1c"}>
           {activeTab === "clipboard" && <Clipboard />}
+          {activeTab === "chat" && <Chat />}
+
         </Grid>
       </Grid>
     </Box>
