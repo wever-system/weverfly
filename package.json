@@ -1,10 +1,14 @@
 {
   "name": "weverfly",
   "private": true,
-  "version": "0.1.1",
+  "version": "0.1.5",
+  "author": {
+    "name": "Weverfly",
+    "email": "console@kakao.com"
+  },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build && electron-builder -mwl",
+    "build": "tsc && vite build && electron-builder -l",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
