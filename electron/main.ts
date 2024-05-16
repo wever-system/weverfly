@@ -35,9 +35,9 @@ function createWindow() {
     },
     frame: false,
     transparent: true,
-    width: 880,
+    width: 940,
     height: 600,
-    minWidth: 880,
+    minWidth: 940,
     minHeight: 600
   });
 

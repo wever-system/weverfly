@@ -13,11 +13,6 @@ const myColorSet = {
 const Chat = () => {
 const [macAddress,setMacAddress] = useState<string>('')
     useEffect(() => {
-        const mac = localStorage.getItem("mac")
-        console.log("mac", mac)
-        setMacAddress(mac||"test")
-    },[])
-    useEffect(() => {
         ipcRenderer.on("receive-mac-ip", (_, message) => {
             setMacAddress(message);
         });
