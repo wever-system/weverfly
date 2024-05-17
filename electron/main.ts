@@ -1,8 +1,11 @@
-import { app, BrowserWindow, clipboard, globalShortcut, ipcMain } from "electron";
+import { app, BrowserWindow, clipboard, globalShortcut, ipcMain , Notification} from "electron";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import macaddress from "macaddress";
+
 import { getData, updateClipboard } from "./service/clipboard";
+import net from "net";
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 process.env.APP_ROOT = path.join(__dirname, "..");
@@ -18,6 +21,36 @@ process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL
 
 let win: BrowserWindow | null;
 let macIp: string | null = null;
+
+  const connectSocket = () => {
+const client = net.createConnection({host:"15.165.216.111", port: 26291 }, () => {
+  console.log("connected to chat server!");
+});
+
+
+client.on('data', (data) => {
+  const [sender, message, profile_url, receiver] = data.toString().split("##__@");
+
+  if(receiver.indexOf(macIp as string) >= 0) {
+    console.log(`서버로부터 받은 메시지: ${data}`, Boolean(receiver.indexOf(macIp as string)));
+    const notification = new Notification({
+      title: `${sender}`,
+      body: `${message}`,
+      icon: `${profile_url}`
+    });
+    notification.show();
+  } 
+  
+});
+
+client.on('end', () => {
+  console.log('서버와의 연결이 종료되었습니다.');
+});
+
+client.on('error', (err) => {
+  console.error(`소켓 오류: ${err}`);
+});
+  }
 function createWindow() {
   macaddress.one((err, mac) => {
     if (err) {
@@ -25,10 +58,9 @@ function createWindow() {
       return;
     }
     macIp = mac;
-    console.log("macIp", macIp);
   });
   win = new BrowserWindow({
-    icon: path.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
+    icon: path.join(__dirname, "assets/mainIcon.png"),
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -41,6 +73,17 @@ function createWindow() {
     minHeight: 600
   });
 
+  const gotTheLock = app.requestSingleInstanceLock();
+
+if (!gotTheLock) {
+  app.quit();
+} else {
+  app.on('second-instance', () => {
+    if (win) {
+      win.focus();
+    }
+  });
+}
   win.webContents.on("did-finish-load", () => {
     win?.webContents.send("main-process-message", new Date().toLocaleString());
   });
@@ -50,6 +93,7 @@ function createWindow() {
     win.loadFile(path.join(RENDERER_DIST, "index.html"));
   }
 }
+
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
@@ -82,7 +126,7 @@ app.whenReady().then(() => {
       }
     }
   });
-}).then(createWindow);
+}).then(createWindow).then(connectSocket);
 
 ipcMain.on("clipboard-data",async (event) => {
   event.sender.send("clipboard-data", await getData(macIp as string));
