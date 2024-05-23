@@ -14,11 +14,15 @@ dotenv.config();
 
 const Body = () => {
   const { activeTab } = useActiveTabStore();
-  useEffect(() => {
-  }, []);
+  useEffect(() => {}, []);
   return (
-    <Box sx={{  }}>
-      <Grid container height={"100vh"} display={"flex"} justifyContent={"space-between"}>
+    <Box sx={{}}>
+      <Grid
+        container
+        height={"90vh"}
+        display={"flex"}
+        justifyContent={"space-between"}
+      >
         <Grid
           item
           width={50}
@@ -31,7 +35,6 @@ const Body = () => {
         <Grid item flexGrow={2} bgcolor={"#1c1c1c"}>
           {activeTab === "clipboard" && <Clipboard />}
           {activeTab === "chat" && <Chat />}
-
         </Grid>
       </Grid>
     </Box>
